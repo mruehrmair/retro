@@ -5,7 +5,7 @@ Small retro computing projects, mainly for the Commodore 64
 
 ## Toolchain commands
 
-Some commands using Vice](https://vice-emu.sourceforge.io/)
+Some helpful commands using [Vice](https://vice-emu.sourceforge.io/)
 
 ### Extract BASIC source code from a prg on a disc image
     c1541 disk.d64 -list

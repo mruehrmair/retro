@@ -1,1 +1,0 @@
-**This folder contains source prg files converted to tokenized BASIC**

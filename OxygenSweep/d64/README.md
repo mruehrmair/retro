@@ -1,1 +1,0 @@
-**This folder contains d64 (disk)**
