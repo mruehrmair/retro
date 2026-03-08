@@ -15,7 +15,7 @@ Markis
 
 ## bash Script
 
-The root folder contains three bash scripts to convert and run c64 basic v2 programs. To use these script install [Vice](https://vice-emu.sourceforge.io/)
+The root folder contains three bash scripts to convert and run c64 basic v2 programs. To use these scripts install [Vice](https://vice-emu.sourceforge.io/)
 
 *convertAll.sh*: to convert all the src files between ASCII, PETSCII and tokenized BASIC and place the output in bin.
 
