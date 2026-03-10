@@ -9,10 +9,8 @@
 70 f=j and 16
 80 if f=0 then gosub 100
 90 goto 60
-100 print chr$(147)
-105 rem --- main loop
-110 for x=1 to 6:read a$
-120 print spc(10); a$:next x
+100 gosub 2000
+110 rem --- main loop
 130 j=peek(56320)
 140 dx=0:dy=0
 150 if(j and 1)=0 then dy=-1
@@ -20,6 +18,19 @@
 170 if(j and 4)=0 then dx=-1
 180 if(j and 8)=0 then dx=1
 190 if dx=0 and dy=0 then 130
+2000 rem load level
+2010 print chr$(147)
+2020 for x=1 to 6:read a$
+2030 print spc(10); a$:next x
+2040 rem -- scan screen for player + ore
+2050 for y=0 to 24
+2060 for x=0 to 39
+2070 a=s+y*40+x: t=peek(a)
+2080 if t=player then px=x: py=y
+2090 if t=treasure then treasureleft=treasureleft+1
+2100 next x
+2110 next y
+2120 return
 6000 data"{rvon}               "
 6010 data"{rvon} {rvof}Z.{rvon} {rvof}Z.........{rvon}{$a0}"
 6020 data"{rvon}{$a0}{rvof}.Z{rvon} {rvof}...Z......{rvon}{$a0}"
