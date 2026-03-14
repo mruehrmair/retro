@@ -1,4 +1,4 @@
-10 s=1024:gosub 9000
+10 s=1024:c=55296:gosub 9000
 20 print chr$(147)
 30 forx=0 to 10: print:next x
 40 print spc(13):print"oxygen sweep"
@@ -25,17 +25,18 @@
 250 goto 110
 2000 rem load level
 2010 print chr$(147)
+2005 for y=10 to 24:for x=1 to 5:poke c+y+x*40,6:next x:next y
 2020 for x=1 to 6:read a$
 2030 print spc(10); a$:next x
 2040 rem -- scan screen for player + ore
 2050 for y=10 to 24
 2060 for x=1 to 5
-2070 a=s+y+x*40:t=peek(a)
+2070 a=s+y+x*40:poke c+y+x*40,14:t=peek(a)
 2080 if t=player then px=x:py=y
 2090 if t=treasure then tl=tl+1
 2100 next x
 2110 next y
-2120 for x=0 to 15:print:next x:poke s+40*24,tl+48
+2120 poke s+40*24,tl+48
 2130 return
 6000 data"{rvon}               "
 6010 data"{rvon} {rvof}Z.{rvon} {rvof}Z.........{rvon} "
