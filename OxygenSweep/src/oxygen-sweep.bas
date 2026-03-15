@@ -34,12 +34,12 @@
 630 gosub 3000:restore:goto 20
 2000 rem load level
 2010 print chr$(147)
-2020 for y=10 to 24:for x=1 to 5:next x:next y
-2030 for x=1 to 6:read a$
-2040 print spc(10); a$:next x
+2020 for x=0 to 4:print:next x
+2030 for x=1 to 13:read a$
+2040 print spc(5); a$:next x
 2050 rem -- scan screen for player
-2060 for y=10 to 24
-2070 for x=1 to 5
+2060 for y=8 to 33
+2070 for x=8 to 10
 2080 a=s+y+x*40:t=peek(a)
 2090 if t=pl then px=x:py=y
 2100 next x
@@ -56,9 +56,16 @@
 4010 print chr$(19);:print "oxygen:";:print spc(1);:print right$("0"+mid$(str$(ox),2),2);
 4020 print spc(1);:print "treasure:";:print spc(1);:print right$("0"+mid$(str$(tc),2),2)
 4030 return
-6000 data"{rvon}               "
-6010 data"{rvon} {rvof}Z.{rvon} {rvof}Z.........{rvon} "
-6020 data"{rvon} {rvof}.Z{rvon} {rvof}...Z......{rvon} "
-6030 data"{rvon} {rvof}.....Z......o{rvon} "
-6040 data"{rvon} {rvof}Z.....Q......{rvon} "
-6050 data"{rvon}               "
+6000 data"{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}"
+6010 data"{CBM-+}{rvon}                            {rvof}{CBM-+}"
+6020 data"{CBM-+}{rvon} {rvof}Z...{rvon} {rvof}.........ZZZZ{rvon} {rvof}...{rvon} {rvof}ZZZ{rvon} {rvof}{CBM-+}"
+6030 data"{CBM-+}{rvon} {rvof}ZZ..{rvon} {rvof}..........ZZZ{rvon} {rvof}...{rvon} {rvof}ZZZ{rvon} {rvof}{CBM-+}"
+6040 data"{CBM-+}{rvon} {rvof}Z...{rvon} {rvof}...{rvon}           {rvof}...{rvon} {rvof}ZZZ{rvon} {rvof}{CBM-+}"
+6050 data"{CBM-+}{rvon} {rvof}............ZZZ.......{rvon} {rvof}..Z{rvon} {rvof}{CBM-+}"
+6060 data"{CBM-+}{rvon}      {rvof}..o{rvon} {rvof}....Z...o{rvon} {rvof}...{rvon} {rvof}...{rvon} {rvof}{CBM-+}"
+6070 data"{CBM-+}{rvon} {rvof}........{rvon} {rvof}....Z....{rvon} {rvof}..{rvon}  {rvof}...{rvon} {rvof}{CBM-+}"
+6080 data"{CBM-+}{rvon} {rvof}........{rvon}    {rvof}...{rvon}    {rvof}.......{rvon} {rvof}{CBM-+}"
+6090 data"{CBM-+}{rvon}      {rvof}......{rvon} {rvof}...{rvon} {rvof}..........{rvon} {rvof}{CBM-+}"
+6100 data"{CBM-+}{rvon} {rvof}ZZ.........{rvon} {rvof}Q..{rvon} {rvof}....ZZZ...{rvon} {rvof}{CBM-+}"
+6110 data"{CBM-+}{rvon}                            {rvof}{CBM-+}"
+6120 data"{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}"
