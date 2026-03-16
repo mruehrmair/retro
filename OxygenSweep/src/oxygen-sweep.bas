@@ -1,7 +1,7 @@
 10 rem screen codes and adresses 
 20 s=1024:c=55296:pl=81:wa=160:tr=90:ve=15:em=46
 30 rem game variables
-40 mox=50:ox=mox:tc=0:ld=0
+40 mox=100:ox=mox:tc=0:ld=0:dim vx(9),vy(9)
 50 print chr$(147):forx=0 to 10: print:next x
 60 print spc(13):print"oxygen sweep"
 70 print:print spc(11):print"press fire to play"
@@ -35,18 +35,17 @@
 2000 rem load level
 2010 print chr$(147)
 2020 for x=0 to 4:print:next x
-2030 for x=1 to 13:read a$
-2040 print spc(5); a$:next x
-2050 rem -- scan screen for player
-2060 for y=8 to 33
-2070 for x=8 to 10
-2080 a=s+y+x*40:t=peek(a)
-2090 if t=pl then px=x:py=y
-2100 next x
-2110 next y
-2120 poke c+py+px*40,1
-2130 gosub 4000
-2140 return
+2030 read px,py,vn
+2040 for x=1 to vn:read vx(x),vy(x):next x
+2050 for x=1 to 13:read a$
+2060 print spc(5); a$:next x
+2070 for x=1 to vn
+2080 poke s+vy(x)+vx(x)*40,ve
+2090 next x
+2100 poke s+py+px*40,pl
+2110 poke c+py+px*40,1
+2120 gosub 4000
+2130 return
 3000 rem wait for fire button
 3010 j=peek(56320)
 3020 f=j and 16
@@ -58,16 +57,18 @@
 4030 print"  ";:print "oxygen";:print" ";:for x=1 to ox/10: print ">";:next x
 4040 for x=1 to (10-ox/10)+3:print" ";:next x:print"{rvof}"
 4050 return
+5980 rem player start position and number of vents and their positions
+5990 data 15,19,2,11,14,11,24 
 6000 data"{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}"
 6010 data"{CBM-+}{rvon}                            {rvof}{CBM-+}"
 6020 data"{CBM-+}{rvon} {rvof}Z...{rvon} {rvof}.........ZZZZ{rvon} {rvof}...{rvon} {rvof}ZZZ{rvon} {rvof}{CBM-+}"
 6030 data"{CBM-+}{rvon} {rvof}ZZ..{rvon} {rvof}..........ZZZ{rvon} {rvof}...{rvon} {rvof}ZZZ{rvon} {rvof}{CBM-+}"
 6040 data"{CBM-+}{rvon} {rvof}Z...{rvon} {rvof}...{rvon}           {rvof}...{rvon} {rvof}ZZZ{rvon} {rvof}{CBM-+}"
 6050 data"{CBM-+}{rvon} {rvof}............ZZZ.......{rvon} {rvof}..Z{rvon} {rvof}{CBM-+}"
-6060 data"{CBM-+}{rvon}      {rvof}..o{rvon} {rvof}....Z...o{rvon} {rvof}...{rvon} {rvof}...{rvon} {rvof}{CBM-+}"
+6060 data"{CBM-+}{rvon}      {rvof}...{rvon} {rvof}....Z....{rvon} {rvof}...{rvon} {rvof}...{rvon} {rvof}{CBM-+}"
 6070 data"{CBM-+}{rvon} {rvof}........{rvon} {rvof}....Z....{rvon} {rvof}..{rvon}  {rvof}...{rvon} {rvof}{CBM-+}"
 6080 data"{CBM-+}{rvon} {rvof}........{rvon}    {rvof}...{rvon}    {rvof}.......{rvon} {rvof}{CBM-+}"
 6090 data"{CBM-+}{rvon}      {rvof}......{rvon} {rvof}...{rvon} {rvof}..........{rvon} {rvof}{CBM-+}"
-6100 data"{CBM-+}{rvon} {rvof}ZZ.........{rvon} {rvof}Q..{rvon} {rvof}....ZZZ...{rvon} {rvof}{CBM-+}"
+6100 data"{CBM-+}{rvon} {rvof}ZZ.........{rvon} {rvof}...{rvon} {rvof}....ZZZ...{rvon} {rvof}{CBM-+}"
 6110 data"{CBM-+}{rvon}                            {rvof}{CBM-+}"
 6120 data"{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}"
