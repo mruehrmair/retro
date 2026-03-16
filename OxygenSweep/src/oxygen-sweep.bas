@@ -1,7 +1,7 @@
 10 rem screen codes and adresses 
 20 s=1024:c=55296:pl=81:wa=160:tr=90:ve=15:em=46
 30 rem game variables
-40 mox=40:ox=mox:tc=0
+40 mox=50:ox=mox:tc=0:ld=0
 50 print chr$(147):forx=0 to 10: print:next x
 60 print spc(13):print"oxygen sweep"
 70 print:print spc(11):print"press fire to play"
@@ -53,9 +53,11 @@
 3030 if f=0 then return
 3040 goto 3010
 4000 rem print hud
-4010 print chr$(19);:print "oxygen:";:print spc(1);:print right$("0"+mid$(str$(ox),2),2);
-4020 print spc(1);:print "treasure:";:print spc(1);:print right$("0"+mid$(str$(tc),2),2)
-4030 return
+4010 print chr$(19);:print "{rvon}score";:print" ";:print right$("0"+mid$(str$(tc),2),2);
+4020 print"  ";:print "load:";:print" ";:print right$("0"+mid$(str$(ld),2),2);
+4030 print"  ";:print "oxygen";:print" ";:for x=1 to ox/10: print ">";:next x
+4040 for x=1 to (10-ox/10)+3:print" ";:next x:print"{rvof}"
+4050 return
 6000 data"{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}"
 6010 data"{CBM-+}{rvon}                            {rvof}{CBM-+}"
 6020 data"{CBM-+}{rvon} {rvof}Z...{rvon} {rvof}.........ZZZZ{rvon} {rvof}...{rvon} {rvof}ZZZ{rvon} {rvof}{CBM-+}"
