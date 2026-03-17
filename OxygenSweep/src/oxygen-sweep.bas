@@ -1,7 +1,8 @@
 10 rem screen codes and adresses 
 20 s=1024:c=55296:pl=81:wa=160:tr=90:ve=15:em=46
 30 rem game variables
-40 mox=100:ox=mox:tc=0:ld=0:dim vx(9),vy(9)
+35 dim vx(9),vy(9)
+40 mox=100:ox=mox:tc=0:ld=0
 50 print chr$(147):forx=0 to 10: print:next x
 60 print spc(13):print"oxygen sweep"
 70 print:print spc(11):print"press fire to play"
@@ -18,24 +19,30 @@
 190 rem player movement
 200 op=s+py+px*40:np=s+py+dy+(px+dx)*40    
 210 if peek(np)=wa then goto 110 
-220 if peek(np)=ve then ox=mox
-230 if peek(np)=tr then tc=tc+1
+220 if peek(np)=ve then ox=mox:tc=tc+ld*10:ld=0
+230 if peek(np)=tr then ld=ld+1:tt=tt-1
 240 poke op,em
 250 poke c+py+px*40,14:px=px+dx:py=py+dy
 260 poke np,pl
 270 poke c+py+px*40,1
-280 ox = ox-1
+280 ox = ox-2-ld
+285 for x=1 to vn:v=s+vy(x)+vx(x)*40:if np <> v then poke v,ve:next
 290 gosub 4000
 300 if ox<=0 then goto 600
+305 if tt<=0 then tc=tc+ld*10:ld=0:goto 700
 310 goto 110
 600 rem game over
-610 for i=1 to 12:print:next i
-620 print spc(1);:print "game over - press fire to restart":
-630 gosub 3000:restore:goto 20
+610 for i=1 to 20:print:next
+620 print spc(3);:print "game over - press fire to restart"
+630 gosub 3000:restore:goto 40
+700 rem game win
+710 for i=1 to 20:print:next
+720 print spc(3);:print "you win - press fire to restart"
+730 gosub 3000:restore:goto 40
 2000 rem load level
 2010 print chr$(147)
 2020 for x=0 to 4:print:next x
-2030 read px,py,vn
+2030 read px,py,tt,vn
 2040 for x=1 to vn:read vx(x),vy(x):next x
 2050 for x=1 to 13:read a$
 2060 print spc(5); a$:next x
@@ -52,13 +59,13 @@
 3030 if f=0 then return
 3040 goto 3010
 4000 rem print hud
-4010 print chr$(19);:print "{rvon}score";:print" ";:print right$("0"+mid$(str$(tc),2),2);
+4010 print chr$(19);:print "{rvon}score";:print" ";:print right$("00"+mid$(str$(tc),2),3);
 4020 print"  ";:print "load:";:print" ";:print right$("0"+mid$(str$(ld),2),2);
 4030 print"  ";:print "oxygen";:print" ";:for x=1 to ox/10: print ">";:next x
-4040 for x=1 to (10-ox/10)+3:print" ";:next x:print"{rvof}"
+4040 for x=1 to (10-ox/10)+2:print" ";:next x:print"{rvof}"
 4050 return
-5980 rem player start position and number of vents and their positions
-5990 data 15,19,2,11,14,11,24 
+5980 rem player start position, number of treasures and number of vents and their positions
+5990 data 15,19,31,2,11,14,11,24 
 6000 data"{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}"
 6010 data"{CBM-+}{rvon}                            {rvof}{CBM-+}"
 6020 data"{CBM-+}{rvon} {rvof}Z...{rvon} {rvof}.........ZZZZ{rvon} {rvof}...{rvon} {rvof}ZZZ{rvon} {rvof}{CBM-+}"
