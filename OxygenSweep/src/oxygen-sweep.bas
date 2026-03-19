@@ -1,8 +1,8 @@
 10 rem screen codes and adresses 
-20 s=1024:c=55296:pl=81:wa=160:tr=90:ve=15:em=46
+20 s=1024:c=55296:pl=81:wa=160:tr=90:ve=87:em=46:ve2=15
 25 gosub 5000
 30 rem game variables
-35 dim vx(9),vy(9)
+35 dim vx(9),vy(9),vs(9)
 40 mox=100:ox=mox:tc=0:ld=0
 50 print chr$(147):forx=0 to 10: print:next x
 60 print spc(13):print"oxygen sweep"
@@ -18,17 +18,28 @@
 170 if(j and 8)=0 then dy=1
 180 if dx=0 and dy=0 then 110
 190 rem player movement
-200 op=s+py+px*40:np=s+py+dy+(px+dx)*40    
-210 if peek(np)=wa then goto 110 
-220 if peek(np)=ve then gosub 5300:ox=mox:tc=tc+ld*10:ld=0
-230 if peek(np)=tr then gosub 5200:ld=ld+1:tt=tt-1
-235 if peek(np)=em then gosub 5100
-240 poke op,em
+200 op=s+py+px*40:np=s+py+dy+(px+dx)*40:vi=0:oi=0
+202 for x=1 to vn
+204 v=s+vy(x)+vx(x)*40
+206 if np=v then vi=x
+208 if op=v then oi=x
+209 next x
+210 if vi=0 then t=peek(np)
+212 if vi>0 then t=vs(vi)
+214 if t=wa then goto 110 
+220 if t<>ve then goto 225
+222 gosub 5300:gosub 2400:vs(vi)=ve2:goto 240
+225 if t<>ve2 then goto 230
+227 gosub 5300:gosub 2400:vs(vi)=em:goto 240
+230 if t<>tr then goto 235
+232 gosub 5200:ld=ld+1:tt=tt-1:goto 240
+235 if t=em then gosub 5100
+240 if oi=0 then poke op,em
+242 if oi>0 then poke op,vs(oi)
 250 poke c+py+px*40,14:px=px+dx:py=py+dy
 260 poke np,pl
 270 poke c+py+px*40,1
-280 ox = ox-2-ld
-285 for x=1 to vn:v=s+vy(x)+vx(x)*40:if np <> v then poke v,ve:next
+280 ox = ox-1-ld
 290 gosub 4000
 300 if ox<=0 then goto 600
 310 if tt<=0 then tc=tc+ld*10:ld=0:goto 700
@@ -49,12 +60,14 @@
 2050 for x=1 to 13:read a$
 2060 print spc(5); a$:next x
 2070 for x=1 to vn
-2080 poke s+vy(x)+vx(x)*40,ve
+2080 vs(x)=ve:poke s+vy(x)+vx(x)*40,ve
 2090 next x
 2100 poke s+py+px*40,pl
 2110 poke c+py+px*40,1
 2120 gosub 4000
 2130 return
+2400 ox=mox:tc=tc+ld*10:ld=0
+2410 return
 3000 rem wait for fire button
 3010 j=peek(56320)
 3020 f=j and 16
@@ -85,6 +98,7 @@
 5310 for t=1 to 100 : next t
 5320 poke 54276,64
 5330 return
+
 6000 rem player start position, number of treasures and number of vents and their positions
 6010 data 15,19,31,2,11,14,11,24 
 6020 data"{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}"
