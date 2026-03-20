@@ -1,8 +1,8 @@
 10 rem screen codes and adresses 
-20 s=1024:c=55296:pl=81:wa=160:tr=90:ve=15:em=46
+20 s=1024:c=55296:pl=81:wa=160:tr=90:ve=15:em=46:vf=87
 25 gosub 5000
 30 rem game variables
-35 dim vx(9),vy(9)
+35 dim vx(9),vy(9),vv(9)
 40 mox=100:ox=mox:tc=0:ld=0
 50 print chr$(147):forx=0 to 10: print:next x
 60 print spc(13):print"oxygen sweep"
@@ -18,17 +18,20 @@
 170 if(j and 8)=0 then dy=1
 180 if dx=0 and dy=0 then 110
 190 rem player movement
-200 op=s+py+px*40:np=s+py+dy+(px+dx)*40    
-210 if peek(np)=wa then goto 110 
-220 if peek(np)=ve then gosub 5300:ox=mox:tc=tc+ld*10:ld=0
-230 if peek(np)=tr then gosub 5200:ld=ld+1:tt=tt-1
-235 if peek(np)=em then gosub 5100
+200 op=s+py+px*40:np=s+py+dy+(px+dx)*40:p=peek(np)     
+210 if p=wa then goto 110 
+220 if p=ve then gosub 5300:gosub 2500
+225 if p=vf then gosub 5300:gosub 2500
+230 if p=tr then gosub 5200:ld=ld+1:tt=tt-1
+235 if p=em then gosub 5100
 240 poke op,em
 250 poke c+py+px*40,14:px=px+dx:py=py+dy
 260 poke np,pl
 270 poke c+py+px*40,1
-280 ox = ox-2-ld
-285 for x=1 to vn:v=s+vy(x)+vx(x)*40:if np <> v then poke v,ve:next
+280 ox = ox-1-ld
+285 for x=1 to vn:v=s+vy(x)+vx(x)*40:if op=v and vv(x)=1 then poke v,vf:next
+286 for x=1 to vn:v=s+vy(x)+vx(x)*40:if op=v and vv(x)=2 then poke v,em:next
+287 for x=1 to vn:v=s+vy(x)+vx(x)*40:if op=v and vv(x)=1 then vv(x)=2:next
 290 gosub 4000
 300 if ox<=0 then goto 600
 310 if tt<=0 then tc=tc+ld*10:ld=0:goto 700
@@ -45,7 +48,7 @@
 2010 print chr$(147)
 2020 for x=0 to 4:print:next x
 2030 read px,py,tt,vn
-2040 for x=1 to vn:read vx(x),vy(x):next x
+2040 for x=1 to vn:read vx(x),vy(x):vv(x)=1:next x
 2050 for x=1 to 13:read a$
 2060 print spc(5); a$:next x
 2070 for x=1 to vn
@@ -55,6 +58,8 @@
 2110 poke c+py+px*40,1
 2120 gosub 4000
 2130 return
+2500 ox=mox:tc=tc+ld*10:ld=0
+2510 return
 3000 rem wait for fire button
 3010 j=peek(56320)
 3020 f=j and 16
