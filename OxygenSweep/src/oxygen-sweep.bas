@@ -21,21 +21,26 @@
 200 op=s+py+px*40:np=s+py+dy+(px+dx)*40:p=peek(np)     
 210 if p=wa then goto 110 
 220 if p=ve then gosub 5300:gosub 2500
-225 if p=vf then gosub 5300:gosub 2500
-230 if p=tr then gosub 5200:ld=ld+1:tt=tt-1
-235 if p=em then gosub 5100
-240 poke op,em
-250 poke c+py+px*40,14:px=px+dx:py=py+dy
-260 poke np,pl
-270 poke c+py+px*40,1
-280 ox = ox-1-ld
-285 for x=1 to vn:v=s+vy(x)+vx(x)*40:if op=v and vv(x)=1 then poke v,vf:next
-286 for x=1 to vn:v=s+vy(x)+vx(x)*40:if op=v and vv(x)=2 then poke v,em:next
-287 for x=1 to vn:v=s+vy(x)+vx(x)*40:if op=v and vv(x)=1 then vv(x)=2:next
-290 gosub 4000
-300 if ox<=0 then goto 600
-310 if tt<=0 then tc=tc+ld*10:ld=0:goto 700
-320 goto 110
+230 if p=vf then gosub 5300:gosub 2500
+240 if p=tr then gosub 5200:ld=ld+1:tt=tt-1
+250 if p=em then gosub 5100
+260 vk=-1:vm=-1
+270 for x=1 to vn
+280 v=s+vy(x)+vx(x)*40
+290 if op=v then vk=v:vm=x
+300 next x
+310 if vk<>op then poke op,em:goto 360
+320 if vk=op and vv(vm)=1 then poke op,vf
+330 if vk=op and vv(vm)=2 then poke op,em
+340 if vk=op and vv(vm)=1 then vv(vm)=2
+360 poke c+py+px*40,14:px=px+dx:py=py+dy
+370 poke np,pl
+380 poke c+py+px*40,1
+390 ox = ox-1-ld
+400 gosub 4000
+410 if ox<=0 then goto 600
+420 if tt<=0 then tc=tc+ld*10:ld=0:goto 700
+430 goto 110
 600 rem game over
 610 for i=1 to 20:print:next
 620 print spc(3);:print "game over - press fire to restart"
