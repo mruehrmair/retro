@@ -46,6 +46,7 @@
 620 print spc(3);:print "game over - press fire to restart"
 630 gosub 3000:restore:goto 40
 700 rem game win
+705 gosub 2500:gosub 4000
 710 for i=1 to 20:print:next
 720 print spc(3);:print "you win - press fire to restart"
 730 gosub 3000:restore:goto 40
@@ -96,7 +97,7 @@
 5320 poke 54276,64
 5330 return
 6000 rem player start position, number of treasures and number of vents and their positions
-6010 data 15,19,31,2,11,14,11,24 
+6010 data 15,19,31,2,12,14,13,30
 6020 data"{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}"
 6030 data"{CBM-+}{rvon}                            {rvof}{CBM-+}"
 6040 data"{CBM-+}{rvon} {rvof}Z...{rvon} {rvof}.........ZZZZ{rvon} {rvof}...{rvon} {rvof}ZZZ{rvon} {rvof}{CBM-+}"
