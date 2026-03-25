@@ -36,7 +36,7 @@
 360 poke c+py+px*40,14:px=px+dx:py=py+dy
 370 poke np,pl
 380 poke c+py+px*40,1
-390 ox = ox-1-ld
+390 ox = ox-1-int(ld/2)
 400 gosub 4000
 410 if ox<=0 then goto 600
 420 if tt<=0 then tc=tc+ld*10:ld=0:goto 700
