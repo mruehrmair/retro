@@ -3,6 +3,7 @@
 25 gosub 5000
 30 rem game variables
 35 dim vx(9),vy(9),vv(9)
+38 lv=1:nl=2
 40 mox=100:ox=mox:tc=0:ld=0
 50 print chr$(147):forx=0 to 10: print:next x
 60 print spc(13):print"oxygen sweep"
@@ -12,13 +13,13 @@
 110 rem --- main loop
 120 j=peek(56320)
 130 dx=0:dy=0
-140 if(j and 1)=0 then dx=-1
-150 if(j and 2)=0 then dx=1
-160 if(j and 4)=0 then dy=-1
-170 if(j and 8)=0 then dy=1
+140 if(j and 1)=0 then dy=-1
+150 if(j and 2)=0 then dy=1
+160 if(j and 4)=0 then dx=-1
+170 if(j and 8)=0 then dx=1
 180 if dx=0 and dy=0 then 110
 190 rem player movement
-200 op=s+py+px*40:np=s+py+dy+(px+dx)*40:p=peek(np)     
+200 op=s+px+py*40:np=s+px+dx+(py+dy)*40:p=peek(np)     
 210 if p=wa then goto 110 
 220 if p=ve then gosub 5300:gosub 2500
 230 if p=vf then gosub 5300:gosub 2500
@@ -26,16 +27,16 @@
 250 if p=em then gosub 5100
 260 vk=-1:vm=-1
 270 for x=1 to vn
-280 v=s+vy(x)+vx(x)*40
+280 v=s+vx(x)+vy(x)*40
 290 if op=v then vk=v:vm=x
 300 next x
 310 if vk<>op then poke op,em:goto 360
 320 if vk=op and vv(vm)=1 then poke op,vf
 330 if vk=op and vv(vm)=2 then poke op,em
 340 if vk=op and vv(vm)=1 then vv(vm)=2
-360 poke c+py+px*40,14:px=px+dx:py=py+dy
+360 poke c+px+py*40,14:px=px+dx:py=py+dy
 370 poke np,pl
-380 poke c+py+px*40,1
+380 poke c+px+py*40,1
 390 ox = ox-1-int(ld/2)
 400 gosub 4000
 410 if ox<=0 then goto 600
@@ -48,8 +49,9 @@
 700 rem game win
 705 gosub 2500:gosub 4000
 710 for i=1 to 20:print:next
-720 print spc(3);:print "you win - press fire to restart"
-730 gosub 3000:restore:goto 40
+720 print "you win - press fire to start next level"
+730 gosub 3000:lv=lv+1:if lv>nl then lv=1:restore
+740 goto 100
 2000 rem load level
 2010 print chr$(147)
 2020 for x=0 to 4:print:next x
@@ -58,10 +60,10 @@
 2050 for x=1 to 13:read a$
 2060 print spc(5); a$:next x
 2070 for x=1 to vn
-2080 poke s+vy(x)+vx(x)*40,ve
+2080 poke s+vx(x)+vy(x)*40,ve
 2090 next x
-2100 poke s+py+px*40,pl
-2110 poke c+py+px*40,1
+2100 poke s+px+py*40,pl
+2110 poke c+px+py*40,1
 2120 gosub 4000
 2130 return
 2500 ox=mox:tc=tc+ld*10:ld=0
@@ -97,7 +99,7 @@
 5320 poke 54276,64
 5330 return
 6000 rem player start position, number of treasures and number of vents and their positions
-6010 data 15,19,31,2,12,14,13,30
+6010 data 19,16,31,2,14,12,30,13
 6020 data"{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}"
 6030 data"{CBM-+}{rvon}                            {rvof}{CBM-+}"
 6040 data"{CBM-+}{rvon} {rvof}Z...{rvon} {rvof}.........ZZZZ{rvon} {rvof}...{rvon} {rvof}ZZZ{rvon} {rvof}{CBM-+}"
@@ -111,3 +113,17 @@
 6120 data"{CBM-+}{rvon} {rvof}ZZ.........{rvon} {rvof}...{rvon} {rvof}....ZZZ...{rvon} {rvof}{CBM-+}"
 6130 data"{CBM-+}{rvon}                            {rvof}{CBM-+}"
 6140 data"{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}"
+6200 data 19,15,31,2,14,12,30,13
+6210 data"{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}"
+6220 data"{CBM-+}{rvon}                            {rvof}{CBM-+}"
+6230 data"{CBM-+}{rvon} {rvof}Z...{rvon} {rvof}.........ZZZZ{rvon} {rvof}...{rvon} {rvof}ZZZ{rvon} {rvof}{CBM-+}"
+6240 data"{CBM-+}{rvon} {rvof}ZZ..{rvon} {rvof}..........ZZZ{rvon} {rvof}...{rvon} {rvof}ZZZ{rvon} {rvof}{CBM-+}"
+6250 data"{CBM-+}{rvon} {rvof}Z...{rvon} {rvof}...{rvon}           {rvof}...{rvon} {rvof}ZZZ{rvon} {rvof}{CBM-+}"
+6260 data"{CBM-+}{rvon} {rvof}............ZZZ.......{rvon} {rvof}..Z{rvon} {rvof}{CBM-+}"
+6270 data"{CBM-+}{rvon}      {rvof}...{rvon} {rvof}....Z....{rvon} {rvof}...{rvon} {rvof}...{rvon} {rvof}{CBM-+}"
+6280 data"{CBM-+}{rvon} {rvof}........{rvon} {rvof}....Z....{rvon} {rvof}..{rvon}  {rvof}...{rvon} {rvof}{CBM-+}"
+6290 data"{CBM-+}{rvon} {rvof}........{rvon}    {rvof}...{rvon}    {rvof}.......{rvon} {rvof}{CBM-+}"
+6300 data"{CBM-+}{rvon}      {rvof}......{rvon} {rvof}...{rvon} {rvof}..........{rvon} {rvof}{CBM-+}"
+6310 data"{CBM-+}{rvon} {rvof}ZZ.........{rvon} {rvof}...{rvon} {rvof}....ZZZ...{rvon} {rvof}{CBM-+}"
+6320 data"{CBM-+}{rvon}                            {rvof}{CBM-+}"
+6330 data"{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}{CBM-+}"
